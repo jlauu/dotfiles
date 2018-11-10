@@ -12,33 +12,23 @@ call vundle#begin()
 "call vundle#begin('~/some/path/here')
 
 " let Vundle manage Vundle, required
+Plugin 'prabirshrestha/async.vim'
+Plugin 'prabirshrestha/asyncomplete.vim'
+Plugin 'prabirshrestha/vim-lsp'
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'mxw/vim-jsx'
-" Plugin 'vim-syntastic/syntastic'
-" Plugin 'Valloric/YouCompleteMe'
-Plugin 'Townk/vim-autoclose'
-Plugin 'dag/vim2hs'
-Plugin 'leafgarland/typescript-vim'
 Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'burnettk/vim-angular'
-Plugin 'pangloss/vim-javascript'
-Plugin 'othree/javascript-libraries-syntax.vim'
-Plugin 'claco/jasmine.vim'
-Plugin 'ElmCast/elm-vim'
-Plugin 'tpope/vim-fugitive'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'neomake/neomake'
-Plugin 'jslint.vim'
-Plugin 'pylint.vim'
+Plugin 'dag/vim2hs'
+Plugin 'easymotion/vim-easymotion'
+Plugin 'jremmen/vim-ripgrep'
+Plugin 'jreybert/vimagit'
 Plugin 'rainbow_parentheses.vim'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'tpope/tpope-vim-abolish'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-repeat'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'jreybert/vimagit'
-Plugin 'tmux-plugins/vim-tmux-focus-events'
-Plugin 'tmux-plugins/vim-tmux'
-Plugin 'maksimr/vim-jsbeautify'
-Plugin 'tpope/tpope-vim-abolish'
-Plugin 'tpope/vim-repeat'
+Plugin 'w0rp/ale'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -144,7 +134,7 @@ function! NumberToggle()
 endfunc
 
 " Toggle between normal and relative numbering.
-nnoremap <leader>r :call NumberToggle()<cr>
+nnoremap <Leader>r :call NumberToggle()<cr>
 
 " Reduce keystrokes
 nnoremap ; :
@@ -159,18 +149,18 @@ let mapleader = " "
 let g:mapleader = " "
 
 " Yank to clipboard
-vnoremap  <leader>y  "+y
-nnoremap  <leader>Y  "+yg_
-nnoremap  <leader>y  "+y
-nnoremap  <leader>yy  "+yy
+vnoremap <Leader>y  "+y
+nnoremap <Leader>Y  "+yg_
+nnoremap <Leader>y  "+y
+nnoremap <Leader>yy  "+yy
 
 " Paste from clipboard
-nnoremap <leader>p "+p
-nnoremap <leader>P "+P
-vnoremap <leader>p "+p
-vnoremap <leader>P "+P
+nnoremap <Leader>p "+p
+nnoremap <Leader>P "+P
+vnoremap <Leader>p "+p
+vnoremap <Leader>P "+P
 
-autocmd FileType javascript setlocal equalprg=js-beautify\ -s\ 2\ --stdin
+"autocmd FileType javascript setlocal equalprg=js-beautify\ -s\ 2\ --stdin
 " set statusline+=%#warningmsg#
 " set statusline+=%{SyntasticStatuslineFlag()}
 " set statusline+=%*
@@ -209,7 +199,7 @@ if executable('rg')
   set grepprg=rg\ --color=never
   let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
   let g:ctrlp_use_caching = 0
-endif  
+endif
 let g:ctrlp_buffer_func = { 'enter': 'BrightHighlightOn', 'exit':  'BrightHighlightOff', }
 
 function! BrightHighlightOn()
@@ -225,48 +215,6 @@ map <silent> <A-h> <C-w><
 map <silent> <A-j> <C-W>-
 map <silent> <A-k> <C-W>+
 map <silent> <A-l> <C-w>>
-
-" Neomake linting
-autocmd! BufWritePost,BufEnter * Neomake
-"let g:neomake_open_list = 2
-set statusline+=\ %#ErrorMsg#%{neomake#statusline#QflistStatus('qf:\ ')}
-let g:neomake_javascript_eslint_maker = {
-    \ 'args': [
-         \ '--env browser', 
-         \ '-c ./.eslintrc'
-    \ ],
-    \ 'errorformat': '%A%f: line %l\, col %v\, %m \(%t%*\d\)',
-    \ }
-let g:neomake_javascript_enabled_makers = ['eslint']
-let g:neomake_python_pylint_maker = {
-    \ 'args': [
-         \ '--rcfile=./etc/pylintrc_diff', 
-         \ '--msg-template="{path}:{line}:{column}:{C}: [{symbol}] {msg} [{msg_id}]"',
-         \ '--reports=no',
-         \ '--output-format=text',
-    \ ],
-    \ 'errorformat':
-        \ '%A%f:%l:%c:%t: %m,' .
-        \ '%A%f:%l: %m,' .
-        \ '%A%f:(%l): %m,' .
-        \ '%-Z%p^%.%#,' .
-        \ '%-G%.%#',
-    \ 'output_stream': 'stdout',
-    \ }
-let g:neomake_python_flake8_maker = {
-    \ 'args': ['--ignore=E221,E241,E272,E251,W702,E203,E201,E202',  '--format=default'],
-    \ 'errorformat':
-        \ '%E%f:%l: could not compile,%-Z%p^,' .
-        \ '%A%f:%l:%c: %t%n %m,' .
-        \ '%A%f:%l: %t%n %m,' .
-        \ '%-G%.%#',
-    \ }
-let g:neomake_python_enabled_makers = ['pylint', 'flake8']
-nmap <Leader><Space>o :lopen<CR>      " open location window
-nmap <Leader><Space>c :lclose<CR>     " close location window
-nmap <Leader><Space>, :ll<CR>         " go to current error/warninr
-nmap <Leader><Space>n :lnext<CR>      " next error/warning
-nmap <Leader><Space>p :lprev<CR>      " previous error/warning
 
 " Rainbow Parentheses
 let g:rbpt_colorpairs = [
@@ -291,6 +239,7 @@ au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
+
 " Reload vimrc
 augroup myvimrchooks
     au!
@@ -310,9 +259,20 @@ let g:airline_right_sep = ' '
 let g:airline_right_alt_sep = '|'
 let g:airline_theme='understated'
 
-" vim-javascript
-let g:javascript_plugin_jsdoc = 1
-let g:javascript_plugin_jsdoc = 1
+"" directory
+map <Leader><Leader>. :vs %:h<CR>
 
-" Shoobx
-autocmd BufRead,BufNewFile *.zcml :set ft=xml
+""ripgrep
+
+"" ale
+let g:airline#extensions#ale#enabled = 1
+let g:ale_completion_enabled = 1
+let g:ale_fixers = {
+\  '*': ['remove_trailing_lines', 'trim_whitespace']
+\}
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
+
+"" ripgrep
+let g:rg_root_types = ['.git']
+nmap <silent> <Space>* :Rg<Enter>
