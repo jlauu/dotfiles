@@ -1,5 +1,4 @@
-set nocompatible              " be iMproved, required
-filetype off                  " required
+set nocompatible              " be iMproved, required filetype off                  " required
 
 " debug ycm
 "let g:ycm_server_keep_logfiles = 1
@@ -12,23 +11,42 @@ call vundle#begin()
 "call vundle#begin('~/some/path/here')
 
 " let Vundle manage Vundle, required
-Plugin 'prabirshrestha/async.vim'
-Plugin 'prabirshrestha/asyncomplete.vim'
-Plugin 'prabirshrestha/vim-lsp'
+
 Plugin 'VundleVim/Vundle.vim'
+Plugin 'airblade/vim-rooter'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'dag/vim2hs'
 Plugin 'easymotion/vim-easymotion'
+Plugin 'haya14busa/incsearch.vim'
+Plugin 'hecal3/vim-leader-guide'
 Plugin 'jremmen/vim-ripgrep'
 Plugin 'jreybert/vimagit'
+Plugin 'junegunn/gv.vim'
+Plugin 'mhinz/vim-startify'
+Plugin 'osyo-manga/vim-over'
+Plugin 'pelodelfuego/vim-swoop'
+Plugin 'prabirshrestha/async.vim'
+Plugin 'prabirshrestha/asyncomplete-file.vim'
+Plugin 'prabirshrestha/asyncomplete-flow.vim'
+Plugin 'prabirshrestha/asyncomplete-lsp.vim'
+Plugin 'prabirshrestha/asyncomplete.vim'
+Plugin 'prabirshrestha/vim-lsp'
 Plugin 'rainbow_parentheses.vim'
 Plugin 'scrooloose/nerdcommenter'
+Plugin 'sheerun/vim-polyglot'
+Plugin 'surround.vim'
 Plugin 'tpope/tpope-vim-abolish'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-vinegar'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'w0rp/ale'
+Plugin 'drewtempelmeyer/palenight.vim'
+Plugin 'ayu-theme/ayu-vim'
+Plugin 'rakr/vim-one'
+Plugin 'Galooshi/vim-import-js'
+Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -65,10 +83,10 @@ set splitbelow          " Horizontal split below current.
 set splitright          " Vertical split to right of current.
 
 if !&scrolloff
-  set scrolloff=3       " Show next 3 lines while scrolling.
+set scrolloff=3       " Show next 3 lines while scrolling.
 endif
 if !&sidescrolloff
-  set sidescrolloff=5   " Show next 5 columns while side-scrolling.
+set sidescrolloff=5   " Show next 5 columns while side-scrolling.
 endif
 set nostartofline       " Do not jump to first character with page commands.
 
@@ -100,7 +118,7 @@ nmap <F9> 9gt
 
 set nobackup
 set nowritebackup
-imap jj <Esc>
+inoremap jj <Esc>
 
 " Nerditya Settings
 
@@ -109,28 +127,23 @@ set smartcase           " ... unless the query has capital letters.
 set gdefault            " Use 'g' flag by default with :s/foo/bar/.
 set magic               " Use 'magic' patterns (extended regular expressions).
 
-" Use <C-L> to clear the highlighting of :set hlsearch.
-if maparg('<C-L>', 'n') ==# ''
-  nnoremap <silent> <C-L> :nohlsearch<CR><C-L>
-endif
-
 " Search and Replace
 nmap <Leader>s :%s//g<Left><Left>
 " Tell Vim which characters to show for expanded TABs,
 " trailing whitespace, and end-of-lines. VERY useful!
 if &listchars ==# 'eol:$'
-  set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
 endif
 set list                " Show problematic characters.
 
 " Relative numbering
 function! NumberToggle()
-  if(&relativenumber == 1)
-    set nornu
-    set number
-  else
-    set rnu
-  endif
+if(&relativenumber == 1)
+  set nornu
+  set number
+else
+  set rnu
+endif
 endfunc
 
 " Toggle between normal and relative numbering.
@@ -175,7 +188,25 @@ vnoremap <Leader>P "+P
 " let g:syntastic_python_checkers = ['pylint']
 set number
 syntax on
-" colorscheme candycode
+set termguicolors
+
+""" palenight
+set background=dark
+colorscheme palenight
+let g:palenight_terminal_italics=1
+
+""" ayu
+"colorscheme ayu
+"let ayucolor="mirage" " for mirage version of theme
+"let ayucolor="dark"   " for dark version of theme
+"let ayucolor="light"  " for light version of theme
+
+""" vim-one
+"colorscheme one
+"set background=dark " for the dark version
+ ""set background=light " for the light version
+"let g:airline_theme='one'
+"let g:one_allow_italics = 1 " I love italic for comments
 
 " ctrlp
 " Open file menu
@@ -190,9 +221,9 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
 set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-  \ 'file': '\v\.(exe|so|dll)$',
-  \ }
+\ 'dir':  '\v[\/]\.(git|hg|svn)$',
+\ 'file': '\v\.(exe|so|dll)$',
+\ }
 let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
 let g:ctrlp_user_command = 'git grep %s'
 if executable('rg')
@@ -203,38 +234,38 @@ endif
 let g:ctrlp_buffer_func = { 'enter': 'BrightHighlightOn', 'exit':  'BrightHighlightOff', }
 
 function! BrightHighlightOn()
-    hi cursorline cterm=none ctermbg=darkred ctermfg=white guibg=darkred guifg=white
+  hi cursorline cterm=none ctermbg=darkred ctermfg=white guibg=darkred guifg=white
 endfunction
 
 function! BrightHighlightOff()
-    set nocursorline
+  set nocursorline
 endfunction
 
 " split macros
-map <silent> <A-h> <C-w><
-map <silent> <A-j> <C-W>-
-map <silent> <A-k> <C-W>+
-map <silent> <A-l> <C-w>>
+map <leader> <A-h> <C-w><
+map <leader> <A-j> <C-W>-
+map <leader> <A-k> <C-W>+
+map <leader> <A-l> <C-w>>
 
 " Rainbow Parentheses
 let g:rbpt_colorpairs = [
-    \ ['brown',       'RoyalBlue3'],
-    \ ['Darkblue',    'SeaGreen3'],
-    \ ['darkgray',    'DarkOrchid3'],
-    \ ['darkgreen',   'firebrick3'],
-    \ ['darkcyan',    'RoyalBlue3'],
-    \ ['darkred',     'SeaGreen3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['brown',       'firebrick3'],
-    \ ['gray',        'RoyalBlue3'],
-    \ ['black',       'SeaGreen3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['Darkblue',    'firebrick3'],
-    \ ['darkgreen',   'RoyalBlue3'],
-    \ ['darkcyan',    'SeaGreen3'],
-    \ ['darkred',     'DarkOrchid3'],
-    \ ['red',         'firebrick3'],
-    \ ]
+  \ ['brown',       'RoyalBlue3'],
+  \ ['Darkblue',    'SeaGreen3'],
+  \ ['darkgray',    'DarkOrchid3'],
+  \ ['darkgreen',   'firebrick3'],
+  \ ['darkcyan',    'RoyalBlue3'],
+  \ ['darkred',     'SeaGreen3'],
+  \ ['darkmagenta', 'DarkOrchid3'],
+  \ ['brown',       'firebrick3'],
+  \ ['gray',        'RoyalBlue3'],
+  \ ['black',       'SeaGreen3'],
+  \ ['darkmagenta', 'DarkOrchid3'],
+  \ ['Darkblue',    'firebrick3'],
+  \ ['darkgreen',   'RoyalBlue3'],
+  \ ['darkcyan',    'SeaGreen3'],
+  \ ['darkred',     'DarkOrchid3'],
+  \ ['red',         'firebrick3'],
+  \ ]
 au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
@@ -242,8 +273,8 @@ au Syntax * RainbowParenthesesLoadBraces
 
 " Reload vimrc
 augroup myvimrchooks
-    au!
-    autocmd bufwritepost .vimrc source ~/.vimrc
+  au!
+  autocmd bufwritepost .vimrc source ~/.vimrc
 augroup END
 
 "" Airline
@@ -261,8 +292,7 @@ let g:airline_theme='understated'
 
 "" directory
 map <Leader><Leader>. :vs %:h<CR>
-
-""ripgrep
+map <Leader><Leader>> :sp %:h<CR>
 
 "" ale
 let g:airline#extensions#ale#enabled = 1
@@ -270,9 +300,71 @@ let g:ale_completion_enabled = 1
 let g:ale_fixers = {
 \  '*': ['remove_trailing_lines', 'trim_whitespace']
 \}
-nmap <silent> <C-k> <Plug>(ale_previous_wrap)
-nmap <silent> <C-j> <Plug>(ale_next_wrap)
+nmap <leader> <C-k> <Plug>(ale_previous_wrap)
+nmap <leader> <C-j> <Plug>(ale_next_wrap)
 
 "" ripgrep
 let g:rg_root_types = ['.git']
+let g:rg_derive_root = 1
 nmap <silent> <Space>* :Rg<Enter>
+nmap <silent> <Space><Space>* % !pyp "p\|p.split('\|')[0]"<bar>%sort u<Enter>
+
+"" lsp
+let g:asyncomplete_smart_completion = 1
+let g:asyncomplete_auto_popup = 1
+if executable('pyls')
+  " pip install python-language-server
+  au User lsp_setup call lsp#register_server({
+      \ 'name': 'pyls',
+      \ 'cmd': {server_info->['pyls']},
+      \ 'whitelist': ['python'],
+      \ })
+endif
+au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#flow#get_source_options({
+  \ 'name': 'flow',
+  \ 'whitelist': ['javascript'],
+  \ 'completor': function('asyncomplete#sources#flow#completor'),
+  \ }))
+au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+  \ 'name': 'file',
+  \ 'whitelist': ['*'],
+  \ 'priority': 10,
+  \ 'completor': function('asyncomplete#sources#file#completor')
+  \ }))
+
+"" leadermap
+" Define prefix dictionary
+let g:lmap =  {}
+
+" Create new menus not based on existing mappings:
+let g:lmap.g = {
+      \'name' : 'Git Menu',
+      \'s' : ['Gstatus', 'Git Status'],
+              \'p' : ['Gpull',   'Git Pull'],
+              \'u' : ['Gpush',   'Git Push'],
+              \'c' : ['Gcommit', 'Git Commit'],
+              \'w' : ['Gwrite',  'Git Write'],
+              \}
+
+" If you use NERDCommenter:
+let g:lmap.c = { 'name' : 'Comments' }
+" Define some descriptions
+let g:lmap.c.c = ['call feedkeys("\<Plug>NERDCommenterComment")','Comment']
+let g:lmap.c[' '] = ['call feedkeys("\<Plug>NERDCommenterToggle")','Toggle']
+" The Descriptions for other mappings defined by NerdCommenter, will default
+" to their respective commands.
+"
+
+"" over and incsearch
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
+
+"" swoop
+nmap --- :set nocul<CR>
+
+"" rooter
+let g:rooter_patters = ['.git/']
+
+"" deoplete
+let g:deoplete#enable_at_startup = 1
