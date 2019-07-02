@@ -112,3 +112,28 @@ function gppr() { ggpush && gpr }
 
 export NVM_DIR="$HOME/.nvm"
 . "/usr/local/opt/nvm/nvm.sh"
+alias driftcli="$HOME/Driftt/drift-cli/bin/drift"
+
+# added by travis gem
+[ -f /Users/jlau/.travis/travis.sh ] && source /Users/jlau/.travis/travis.sh
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+alias sed=gsed
+
+function replace() {
+  git grep -l $1 |  xargs -t sed -i -- "s/$1/$2/g"
+}
+
+# tabtab source for serverless package
+# uninstall by removing these lines or running `tabtab uninstall serverless`
+[[ -f /Users/jlau/.config/yarn/global/node_modules/tabtab/.completions/serverless.zsh ]] && . /Users/jlau/.config/yarn/global/node_modules/tabtab/.completions/serverless.zsh
+# tabtab source for sls package
+# uninstall by removing these lines or running `tabtab uninstall sls`
+[[ -f /Users/jlau/.config/yarn/global/node_modules/tabtab/.completions/sls.zsh ]] && . /Users/jlau/.config/yarn/global/node_modules/tabtab/.completions/sls.zsh
+# tabtab source for slss package
+# uninstall by removing these lines or running `tabtab uninstall slss`
+[[ -f /Users/jlau/.config/yarn/global/node_modules/tabtab/.completions/slss.zsh ]] && . /Users/jlau/.config/yarn/global/node_modules/tabtab/.completions/slss.zsh
+
+# postgres
+export PATH="/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH"
+

@@ -1,0 +1,6 @@
+export DRIFT_HOME=~/Drift
+alias gcb="git branch | grep \"*\""
+alias gh="git rev-parse --short HEAD"
+
+alias tbslack="tb | pyp \"pp[1:-2]| w[1:] | w.replace('✔', ':green_checkmark:').replace('☐', ':white_circle:') | pp.sort() | p\" | pbcopy"
+function npm-do { (PATH=$(npm bin):$PATH; eval $@;) }
